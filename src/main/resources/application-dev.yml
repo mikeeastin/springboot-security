@@ -1,0 +1,10 @@
+server:
+  port: 8080
+  context-path: /mrc
+gril:
+  cupSize: B
+  age: 18
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html

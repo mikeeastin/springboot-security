@@ -1,0 +1,60 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <title>登录页面</title>
+    <script src="js/jquery.min.js" ></script>
+    <link   rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+</head>
+<body>
+<div th:if="${param.error}">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                无效的用户密码
+            </div>
+        </div>
+    </div>
+
+</div>
+<div th:if="${param.logout}">
+
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <div class="alert alert-success alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                你已经退出
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row clearfix">
+        <div class="col-md-12 column">
+            <form th:action="@{/login}"  method="post">
+                <div class="form-group">
+                    <label>用户 </label>  <input type="text"  class="form-control" name="username"  />
+                </div>
+                <div class="form-group">
+                    <label>密码  </label> <input type="password" class="form-control" name="password" />
+                </div>
+                <div><input type="submit" class="btn btn-default " value="登录"/>
+                    <input  type="button"  class="btn btn-default" value="注册" onclick="doRegister()" />
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+<!--<form th:action="@{/login}" method="post">
+    <div><label> 用户名 : <input type="text" name="username"/> </label></div>
+    <div><label> 密码: <input type="password" name="password"/> </label></div>
+    <div><input type="submit" value="登录"/></div>
+</form>-->
+</body>
+</html>

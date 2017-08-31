@@ -1,0 +1,6 @@
+server:
+  port: 8081
+  context-path: /blog
+gril:
+  cupSize: F
+  age: 18
