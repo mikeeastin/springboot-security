@@ -16,26 +16,40 @@ import javax.validation.Valid;
 
 @Controller
 public class HelloController {
-    private Logger logger;
+    private final  static org.slf4j.Logger logger = LoggerFactory.getLogger(HelloController.class);
 
     @Autowired
     private GrilProperties grilProperties;
     @Autowired
     private ReaderRespository readerRespository;
 
+    /**
+     * 应用首页
+     * @return
+     */
     @GetMapping(value = {"/"})
     public String index() {
         return "index";
     }
 
+    /**
+     * 注册用户页面
+     * @param reader
+     * @return
+     */
     @GetMapping(value = {"/register"})
     public String doRegister(Reader reader) {
         return "register";
     }
 
+    /**
+     * 注册用户，保存到数据库，使用 jpa
+     * @param reader
+     * @return
+     */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerUser(@ModelAttribute("reader") Reader reader) {
-        System.out.println("-------" + reader + "  username:" + reader.getUsername() + " password:" + reader.getPassword());
+        logger.info(" username:" + reader.getUsername() + " password:" + reader.getPassword());
         Reader dbReader = readerRespository.findOne(reader.getUsername());
         if (dbReader != null) {
             return "";
@@ -44,6 +58,13 @@ public class HelloController {
             return "redirect:/reader/" + reader.getUsername();
         }
     }
+
+    /**
+     * 注册成功，显示对应的账号
+     * @param username
+     * @param model
+     * @return
+     */
     @GetMapping(value="/reader/{username}")
     public String showReader(@PathVariable  String username,Model model){
          Reader reader = readerRespository.findOne(username);
@@ -51,6 +72,11 @@ public class HelloController {
          return "registerSuccess";
     }
 
+    /**
+     * 随便写的
+     * @param id
+     * @return
+     */
     @GetMapping(value = {"/say"})
     public String say(@PathVariable("id") int id) {
         return "hello " + grilProperties.getCupSize() + "  id:" + id;
