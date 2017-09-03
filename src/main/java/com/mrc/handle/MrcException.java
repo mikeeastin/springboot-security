@@ -5,9 +5,9 @@ import com.mrc.enums.ResultEnums;
 /**
  * Created by Administrator on 2017-06-18.
  */
-public class GirlException extends  RuntimeException {
+public class MrcException extends  RuntimeException {
     private  Integer code;
-    public  GirlException(ResultEnums resultEnums){
+    public MrcException(ResultEnums resultEnums){
         super(resultEnums.getMsg());
         this.code = resultEnums.getCode();
     }

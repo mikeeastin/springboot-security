@@ -2,7 +2,6 @@ package com.mrc.handle;
 
 import com.mrc.domain.Result;
 import com.mrc.utils.ResultUtil;
-import org.apache.log4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,8 +16,8 @@ public class ExceptionHandle {
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
     public Result handle(Exception e){
-        if(e instanceof  GirlException){
-            GirlException girlException = (GirlException) e;
+        if(e instanceof MrcException){
+            MrcException girlException = (MrcException) e;
             return  ResultUtil.error(girlException.getCode(),girlException.getMessage());
         }else{
             logger.error("系统异常{}",e);

@@ -7,15 +7,12 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by Administrator on 2017-08-31.
- *
- *
  */
 @RestController
 public class CityRestController {
 
     @Autowired
     private CityService cityService;
-
 
     @RequestMapping(value = "/api/city/{id}", method = RequestMethod.GET)
     public City findOneCity(@PathVariable("id") Long id) {

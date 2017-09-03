@@ -3,28 +3,31 @@ package com.mrc.controller;
 import com.mrc.domain.Reader;
 import com.mrc.properties.GrilProperties;
 import com.mrc.respository.ReaderRespository;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.validation.Valid;
-
+/**
+ * HomeController 登录、注册
+ */
 @Controller
-public class HelloController {
-    private final  static org.slf4j.Logger logger = LoggerFactory.getLogger(HelloController.class);
+public class HomeController {
+    /**
+     * slfj 日志.
+     */
+    private final static org.slf4j.Logger logger = LoggerFactory.getLogger(HomeController.class);
 
-    @Autowired
-    private GrilProperties grilProperties;
+    /**
+     * readerRespository 使用 jpa Respository.
+     */
     @Autowired
     private ReaderRespository readerRespository;
 
     /**
      * 应用首页
+     *
      * @return
      */
     @GetMapping(value = {"/"})
@@ -34,6 +37,7 @@ public class HelloController {
 
     /**
      * 注册用户页面
+     *
      * @param reader
      * @return
      */
@@ -43,13 +47,14 @@ public class HelloController {
     }
 
     /**
-     * 注册用户，保存到数据库，使用 jpa
+     * 注册用户，保存到数据库
+     *
      * @param reader
      * @return
      */
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public String registerUser(@ModelAttribute("reader") Reader reader) {
-        logger.info(" username:" + reader.getUsername() + " password:" + reader.getPassword());
+        logger.info(" 注册的username:" + reader.getUsername() + " password:" + reader.getPassword());
         Reader dbReader = readerRespository.findOne(reader.getUsername());
         if (dbReader != null) {
             return "";
@@ -61,25 +66,16 @@ public class HelloController {
 
     /**
      * 注册成功，显示对应的账号
+     *
      * @param username
      * @param model
      * @return
      */
-    @GetMapping(value="/reader/{username}")
-    public String showReader(@PathVariable  String username,Model model){
-         Reader reader = readerRespository.findOne(username);
-         model.addAttribute(reader);
-         return "registerSuccess";
-    }
-
-    /**
-     * 随便写的
-     * @param id
-     * @return
-     */
-    @GetMapping(value = {"/say"})
-    public String say(@PathVariable("id") int id) {
-        return "hello " + grilProperties.getCupSize() + "  id:" + id;
+    @GetMapping(value = "/reader/{username}")
+    public String showReader(@PathVariable String username, Model model) {
+        Reader reader = readerRespository.findOne(username);
+        model.addAttribute(reader);
+        return "registerSuccess";
     }
 
 }

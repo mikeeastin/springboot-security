@@ -12,8 +12,13 @@ import javax.persistence.PersistenceContext;
 import com.mrc.domain.Spitter;
 import org.springframework.stereotype.Repository;
 
-
-@Repository
+/**
+ * Jpa 方式操作数据
+ * springdata jpa虽然相比hibernate性能上会稍微差点，毕竟是hibernate更上层的封装，但是使用上更加简洁
+ * 本应用暂时注释掉 @Repository ，即不使用Jpa，使用spring jdbc
+ * JdbcSpitterRepository
+ */
+//@Repository
 public class JpaSpitterRepository implements SpitterRepository {
 
     @PersistenceContext
@@ -38,6 +43,11 @@ public class JpaSpitterRepository implements SpitterRepository {
 
     public List<Spitter> findAll() {
         return (List<Spitter>) entityManager.createQuery("select s from Spitter s").getResultList();
+    }
+
+    @Override
+    public void addSpitter(Spitter spitter) {
+
     }
 
 }

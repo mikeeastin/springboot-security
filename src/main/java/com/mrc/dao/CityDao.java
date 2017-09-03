@@ -3,6 +3,7 @@ package com.mrc.dao;
 import com.mrc.domain.City;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,10 +12,10 @@ import java.util.List;
  * Created by Administrator on 2017-08-31.
  */
 
-@Mapper
+/**
+ * 使用 myBatis
+ */
 public interface CityDao {
-
-    
 
     /**
      * 获取城市信息列表

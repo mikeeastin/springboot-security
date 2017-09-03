@@ -20,9 +20,14 @@ public class CityServiceImpl implements CityService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CityServiceImpl.class);
 
+    /**
+     * 使用MyBatis ORM，对应配置在 CityMapper.xml
+     */
     @Autowired
     private CityDao cityDao;
-
+    /**
+     * redisTemplate redisTemplate.
+     */
     @Autowired
     private RedisTemplate redisTemplate;
 
@@ -69,18 +74,14 @@ public class CityServiceImpl implements CityService {
         boolean hasKey = redisTemplate.hasKey(key);
         if (hasKey) {
             redisTemplate.delete(key);
-
             LOGGER.info("CityServiceImpl.updateCity() : 从缓存中删除城市 >> " + city.toString());
         }
-
         return ret;
     }
 
     @Override
     public Long deleteCity(Long id) {
-
         Long ret = cityDao.deleteCity(id);
-
         // 缓存存在，删除缓存
         String key = "city_" + id;
         boolean hasKey = redisTemplate.hasKey(key);
