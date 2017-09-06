@@ -1,16 +1,19 @@
 package com.mrc.respository;
 
-import com.mrc.controller.SpitterController;
 import com.mrc.domain.Spitter;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcOperations;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.Assert;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017-09-03.
@@ -38,18 +41,34 @@ public class JdbcSpitterRepository implements SpitterRepository {
             // "insert into spitter (username, password) values (:username, :password)";
             "insert into spitter (username, password) values (?, ?)";
 
+
     /**
      * 使用JdbcTemplate实现的addSpitter()
      *
      * @param spitter
      */
     public void addSpitter(Spitter spitter) {
-        logger.info("新增Spitter" + spitter.getPassword() + "  " + spitter.getUsername());
+        logger.info("add Spitter" + spitter.getPassword() + "  " + spitter.getUsername());
         jdbcOperations.update(SQL_INSERT_SPITTER,
                 spitter.getUsername(), spitter.getPassword()
-                // spitter
         );
     }
+
+    @Override
+    public void updateSpitter(Spitter spitter) {
+        jdbcOperations.update(
+                "update spitter set name=？,password=？ where id = ?",
+                new PreparedStatementSetter(){
+                    @Override
+                    public void setValues(PreparedStatement ps) throws SQLException {
+                        ps.setString(1, spitter.getUsername());
+                        ps.setString(2, spitter.getPassword());
+                        ps.setLong(3, spitter.getId());
+                    }
+                }
+        );
+    }
+
 
     @Override
     public long count() {
@@ -88,7 +107,10 @@ public class JdbcSpitterRepository implements SpitterRepository {
     }
 
     @Override
-    public List<Spitter> findAll() {
-        return null;
+    public List<Map<String, Object>> findAll() {
+        String sql = "select * from Spitter";
+        return jdbcOperations.queryForList(sql);
     }
+
+
 }

@@ -75,7 +75,12 @@ public class HomeController {
     public String showReader(@PathVariable String username, Model model) {
         Reader reader = readerRespository.findOne(username);
         model.addAttribute(reader);
-        return "registerSuccess";
+        return "success";
     }
 
+    /*public String listReaders(){
+        readerRespository.findAll();
+        return
+    }
+*/
 }

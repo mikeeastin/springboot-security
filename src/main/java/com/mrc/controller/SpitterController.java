@@ -13,12 +13,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -45,28 +45,27 @@ public class SpitterController {
      * @return
      */
     @RequestMapping(value = "/register", method = GET)
-    public String showRegistrationForm() {
+    public String register() {
         return "registerSpitter";
     }
 
     /**
      * 注册spitter用户  使用 spring jdbc  template
-     *
+     *新增 spitter
      * @param spitter
      * @return
      */
     @Transactional
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String processRegistration(@ModelAttribute("spitter") @Valid Spitter spitter) {
+    public String register(@ModelAttribute("spitter") @Valid Spitter spitter) {
         logger.info(" ------- " + spitter.getUsername() + " " + spitter.getPassword());
         spitterRepository.addSpitter(spitter);
 
-        return "redirect:/spitter/" +
-                spitter.getUsername();
+        return "redirect:/spitter/" + spitter.getUsername();
     }
 
     /**
-     * 显示具体某个 spitter
+     * 查找 spitter
      *
      * @param username
      * @param model
@@ -74,9 +73,40 @@ public class SpitterController {
      */
     @RequestMapping(value = "/{username}", method = RequestMethod.GET)
     public String showSpitterProfile(@PathVariable String username, Model model) {
+        logger.info("sss"+spitterRepository);
         Spitter spitter = spitterRepository.findByUsername(username);
-        logger.info(spitter.getUsername() + " password" + spitter.getPassword());
-        model.addAttribute(spitter);
+        logger.info(spitter.getUsername() + " password" + spitter.getPassword()+" model:"+model);
+       // model.addAttribute(spitter);
         return "spitter";
+    }
+
+    /**
+     * 列出所有的Spitter
+     * @return
+     */
+    @RequestMapping(value = "/listAll", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Map<String,Object>>  listAll(){
+        List<Map<String,Object>> list =  spitterRepository.findAll();
+        return list;
+    }
+    /**
+     *  更新spitter
+     * @return
+     */
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    @ResponseBody
+    public String  update(Spitter spitter){
+        spitterRepository.updateSpitter(spitter);
+        return "";
+    }
+
+    /**
+     * 删除spitter
+     * @return
+     */
+    @RequestMapping(value="/delete",method = RequestMethod.POST)
+    public String delete(){
+        return "";
     }
 }

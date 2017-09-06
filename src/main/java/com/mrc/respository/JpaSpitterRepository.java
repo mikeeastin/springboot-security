@@ -5,12 +5,12 @@ package com.mrc.respository;
  */
 
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import com.mrc.domain.Spitter;
-import org.springframework.stereotype.Repository;
 
 /**
  * Jpa 方式操作数据
@@ -41,13 +41,23 @@ public class JpaSpitterRepository implements SpitterRepository {
         return (Spitter) entityManager.createQuery("select s from Spitter s where s.username=?").setParameter(1, username).getSingleResult();
     }
 
-    public List<Spitter> findAll() {
-        return (List<Spitter>) entityManager.createQuery("select s from Spitter s").getResultList();
+    public List<Map<String, Object>> findAll() {
+        return ( List<Map<String, Object>> ) entityManager.createQuery("select * from Spitter s").getResultList();
     }
 
     @Override
     public void addSpitter(Spitter spitter) {
 
     }
+
+    @Override
+    public void updateSpitter(Spitter spitter) {
+
+    }
+
+/*    @Override
+    public void insertSpitter(Spitter spitter) {
+
+    }*/
 
 }

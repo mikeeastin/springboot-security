@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 // mapper 接口类扫描包配置
 @MapperScan("com.mrc.dao")
 @SpringBootApplication
-public class MrcApplication {
+public class DemoApplication {
 
 
     public static void main(String[] args) {
-        SpringApplication.run(MrcApplication.class, args);
+        SpringApplication.run(DemoApplication.class, args);
     }
 
 }
