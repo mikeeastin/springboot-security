@@ -76,7 +76,7 @@ public class SpitterController {
         logger.info("sss"+spitterRepository);
         Spitter spitter = spitterRepository.findByUsername(username);
         logger.info(spitter.getUsername() + " password" + spitter.getPassword()+" model:"+model);
-       // model.addAttribute(spitter);
+        model.addAttribute(spitter);
         return "spitter";
     }
 
